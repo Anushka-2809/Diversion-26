@@ -18,7 +18,7 @@ import Footer from "@/components/Footer";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const API_URL = import.meta.env.VITE_API_URL || "https://aqua-delight-backend.vercel.app/api";
 
 const Checkout = () => {
   const navigate = useNavigate();

@@ -30,7 +30,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const API_URL = import.meta.env.VITE_API_URL || "https://aqua-delight-backend.vercel.app/api";
 
 const SellerDashboard = () => {
   const { user, token, isSeller } = useAuth();

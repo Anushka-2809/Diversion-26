@@ -4,7 +4,7 @@ import { User, Mail, Phone, MapPin, Edit2, Save, X } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const API_URL = import.meta.env.VITE_API_URL || "https://aqua-delight-backend.vercel.app/api";
 
 const UserDashboard = () => {
   const { user, token, updateProfile, isBuyer } = useAuth();
