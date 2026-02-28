@@ -10,7 +10,7 @@ import {
   Shield,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import heroImage from "@/assets/hero-seafood.png";
+import heroImage from "@/assets/hero-seafood.jpg";
 
 /* Floating animation */
 const floatVariants = {
