@@ -1,7 +1,14 @@
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, ChefHat, Sparkles, Star, Truck, Shield } from "lucide-react";
+import {
+  ArrowRight,
+  ChefHat,
+  Sparkles,
+  Star,
+  Truck,
+  Shield,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import heroImage from "@/assets/hero-seafood.png";
 
@@ -29,14 +36,13 @@ const Counter = ({ end, suffix = "", duration = 2 }) => {
 
     const counter = setInterval(() => {
       start += increment;
-
       if (start >= end) {
         setCount(end);
         clearInterval(counter);
       } else {
         setCount(Math.floor(start));
       }
-    }, 1000 / 60);
+    }, 500 / 60);
 
     return () => clearInterval(counter);
   }, [end, duration]);
@@ -52,7 +58,6 @@ const Counter = ({ end, suffix = "", duration = 2 }) => {
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-white">
-
       {/* background grid */}
       <div
         className="absolute inset-0 opacity-[0.035]"
@@ -90,17 +95,11 @@ const Hero = () => {
       ))}
 
       <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-28 pb-20 relative z-10">
-
         <div className="grid lg:grid-cols-2 gap-14 xl:gap-20 items-center">
-
-          {/* LEFT SIDE */}
+          {/* LEFT */}
           <div>
-
             {/* badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-7 border bg-sky-50 border-sky-200 text-sky-600">
                 <Sparkles className="w-3.5 h-3.5" />
                 Freshly Caught Daily
@@ -113,10 +112,12 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               className="text-4xl sm:text-5xl lg:text-[3.6rem] font-bold leading-[1.1] text-slate-900 mb-6"
             >
-              Fresh From{" "}
+              Fresh From the{" "}
               <span className="text-sky-500">Ocean</span>
               <br />
-              <span className="text-slate-600 font-semibold">to Your Plate</span>
+              <span className="text-slate-600 font-semibold">
+                Straight to Your Plate
+              </span>
             </motion.h1>
 
             {/* description */}
@@ -125,35 +126,38 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               className="text-lg text-slate-500 mb-10 max-w-xl"
             >
-              Discover premium seafood delivered fresh to your door.  
-              Sustainable sourcing, unbeatable taste, every single day.
+              Peak freshness, bold flavors, and chef-inspired recipes —
+              seafood done right.
             </motion.p>
 
             {/* buttons */}
             <div className="flex flex-wrap gap-4 mb-12">
               <Link
                 to="/explore"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-sky-500 hover:bg-sky-600 transition shadow-lg"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold
+                text-white bg-sky-500 hover:bg-sky-600 transition
+                shadow-lg shadow-sky-500/30"
               >
                 Explore Fish
                 <ArrowRight className="w-4 h-4" />
               </Link>
 
               <Link
-                to="/recipes"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-slate-600 border border-slate-200 hover:bg-sky-50"
+                to="/how-it-works"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold
+                text-slate-700 border border-slate-200
+                hover:bg-sky-50 hover:border-sky-300 transition"
               >
-                <ChefHat className="w-4 h-4" />
-                View Recipes
+                <Sparkles className="w-4 h-4 text-sky-500" />
+                How It Works
               </Link>
             </div>
 
-            {/* animated stats */}
+            {/* stats */}
             <div className="flex flex-wrap gap-10 pt-8 border-t border-slate-100">
-
               <div>
                 <p className="text-3xl font-bold text-slate-900">
-                  <Counter end={200} suffix="+" />
+                  <Counter end={30} suffix="+" />
                 </p>
                 <p className="text-xs uppercase text-slate-400 mt-1">
                   Fish Varieties
@@ -162,7 +166,7 @@ const Hero = () => {
 
               <div>
                 <p className="text-3xl font-bold text-slate-900">
-                  <Counter end={50} suffix="K+" />
+                  <Counter end={5} suffix="K+" />
                 </p>
                 <p className="text-xs uppercase text-slate-400 mt-1">
                   Happy Customers
@@ -177,30 +181,18 @@ const Hero = () => {
                   Fresh Delivery
                 </p>
               </div>
-
             </div>
-
           </div>
 
-          {/* RIGHT SIDE IMAGE */}
+          {/* RIGHT IMAGE */}
           <div className="relative flex justify-center lg:justify-end">
-
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="relative w-full max-w-[780px]"
-            >
-
-              {/* responsive container */}
-              <div className="relative w-full aspect-[4/3] sm:aspect-[16/12] lg:aspect-[16/11] rounded-3xl overflow-hidden shadow-2xl">
-
+            <div className="relative w-full max-w-xl">
+              <div className="relative w-full aspect-[16/11] rounded-3xl overflow-hidden shadow-2xl">
                 <img
                   src={heroImage}
                   alt="Fresh seafood"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
-
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
 
                 {/* live badge */}
@@ -213,17 +205,14 @@ const Hero = () => {
                 <div className="absolute bottom-4 left-4 right-4">
                   <div className="bg-white rounded-2xl p-4 shadow-lg flex items-center justify-between">
                     <div>
-                      <p className="text-xs text-slate-400">Today's Catch</p>
-                      <p className="font-bold text-slate-800">
-                        Atlantic Salmon
-                      </p>
+                      <p className="text-xs text-slate-400">Today’s Catch</p>
+                      <p className="font-bold text-slate-800">Atlantic Salmon</p>
                     </div>
 
                     <div className="text-right">
                       <p className="text-xs text-slate-400">From</p>
                       <p className="font-bold text-sky-500">
-                        $12.99
-                        <span className="text-xs text-slate-400"> /kg</span>
+                        ₹3000 <span className="text-xs text-slate-400">/kg</span>
                       </p>
                     </div>
 
@@ -235,11 +224,9 @@ const Hero = () => {
                     </Link>
                   </div>
                 </div>
-
               </div>
 
               {/* floating cards */}
-
               <motion.div
                 custom={0}
                 variants={floatVariants}
@@ -262,7 +249,7 @@ const Hero = () => {
                 <Truck className="text-sky-500 w-4 h-4" />
                 <div>
                   <p className="font-bold text-sm">Free Ship</p>
-                  <p className="text-xs text-slate-400">Over $49</p>
+                  <p className="text-xs text-slate-400">Over ₹1000</p>
                 </div>
               </motion.div>
 
@@ -278,11 +265,8 @@ const Hero = () => {
                   <p className="text-xs text-slate-400">100% Fresh</p>
                 </div>
               </motion.div>
-
-            </motion.div>
-
+            </div>
           </div>
-
         </div>
       </div>
     </section>

@@ -18,7 +18,7 @@ const fishSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ["Fresh Water", "Salt Water", "Shell Fish", "Other"],
+      enum: ["Premium Fish", "Premium Shrimp & Prawns", "Premium Crabs", "Exotic &  Luxury Seafood","Local Fish"],
       required: [true, "Please select a category"],
     },
     price: {
@@ -31,24 +31,9 @@ const fishSchema = new mongoose.Schema(
       required: [true, "Please provide quantity"],
       min: 0,
     },
-    unit: {
-      type: String,
-      enum: ["kg", "lb", "pieces", "dozen"],
-      default: "kg",
-    },
-    freshness: {
-      type: String,
-      enum: [
-        "Super Fresh (Today)",
-        "Fresh (1-2 Days)",
-        "Good (2-3 Days)",
-        "Average (3-4 Days)",
-      ],
-      required: [true, "Please select freshness level"],
-    },
     harvestDate: {
       type: Date,
-      required: [true, "Please provide harvest date"],
+      required: [true, "Please provide catch date"],
     },
     image: {
       type: String,

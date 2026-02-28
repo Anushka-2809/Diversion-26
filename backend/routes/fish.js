@@ -76,18 +76,7 @@ router.post(
     body("quantity")
       .isInt({ min: 1 })
       .withMessage("Quantity must be at least 1"),
-    body("unit")
-      .isIn(["kg", "lb", "pieces", "dozen"])
-      .withMessage("Invalid unit"),
-    body("freshness")
-      .isIn([
-        "Super Fresh (Today)",
-        "Fresh (1-2 Days)",
-        "Good (2-3 Days)",
-        "Average (3-4 Days)",
-      ])
-      .withMessage("Invalid freshness level"),
-    body("harvestDate").isISO8601().withMessage("Invalid harvest date format"),
+    body("harvestDate").isISO8601().withMessage("Invalid catch date format"),
   ],
   addFish
 );
@@ -109,15 +98,6 @@ router.put(
       .isIn(["Fresh Water", "Salt Water", "Shell Fish", "Other"]),
     body("price").optional().isFloat({ min: 0 }),
     body("quantity").optional().isInt({ min: 0 }),
-    body("unit").optional().isIn(["kg", "lb", "pieces", "dozen"]),
-    body("freshness")
-      .optional()
-      .isIn([
-        "Super Fresh (Today)",
-        "Fresh (1-2 Days)",
-        "Good (2-3 Days)",
-        "Average (3-4 Days)",
-      ]),
     body("harvestDate").optional().isISO8601(),
   ],
   updateFish

@@ -122,14 +122,6 @@ const Navbar = () => {
 
           {isAuthenticated ? (
             <div className="hidden md:flex items-center gap-2 ml-2">
-              <div className="flex flex-col items-end">
-                <div className="text-sm font-medium text-slate-700">
-                  {user?.name || user?.email}
-                </div>
-                <div className="text-xs text-sky-600 font-semibold capitalize">
-                  {user?.role}
-                </div>
-              </div>
               <Link
                 to={user?.role === "seller" ? "/seller/dashboard" : "/user/dashboard"}
                 className="px-3 py-2 rounded-xl text-sm font-medium bg-sky-50 text-sky-600 hover:bg-sky-100 transition"

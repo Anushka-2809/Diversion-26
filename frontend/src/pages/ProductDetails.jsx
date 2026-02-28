@@ -504,7 +504,7 @@ const ProductDetails = () => {
               </div>
               <div className="bg-white rounded-xl border border-slate-200 p-4">
                 <p className="text-xs text-slate-500 uppercase tracking-wide mb-1">
-                  Harvest Date
+                  Catch Date
                 </p>
                 <p className="font-semibold text-slate-900">
                   {new Date(product.harvestDate).toLocaleDateString()}
@@ -560,7 +560,7 @@ const ProductDetails = () => {
                 </div>
                 <div className="text-sm">
                   <p className="font-semibold text-slate-900">Fresh Catch</p>
-                  <p className="text-slate-500 text-xs">Recently harvested</p>
+                  <p className="text-slate-500 text-xs">Recently caught</p>
                 </div>
               </div>
             </div>

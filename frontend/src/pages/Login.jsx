@@ -1,9 +1,19 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// eslint-disable-next-line no-unused-vars
-import { motion } from "framer-motion";
-import { Mail, Lock, LogIn } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Mail, Lock, LogIn, AlertCircle, X, Loader2, Fish } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 const Login = () => {
   const [form, setForm] = useState({
@@ -34,81 +44,120 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 relative overflow-hidden">
-
-
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-sky-50/50 to-slate-50 relative overflow-hidden px-4">
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white w-full max-w-md rounded-3xl p-10 shadow-xl border border-slate-100"
+        transition={{ duration: 0.4 }}
+        className="w-full max-w-md"
       >
-        <h2 className="text-3xl font-bold text-center mb-2">Welcome Back</h2>
-        <p className="text-slate-500 text-center mb-8">
-          Login to your account
-        </p>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
-              {error}
-            </div>
-          )}
-
-          <div className="relative">
-            <Mail className="absolute left-3 top-3.5 w-4 h-4 text-slate-400" />
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              required
-              value={form.email}
-              onChange={handleChange}
-              disabled={isLoading}
-              className="w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-sky-400 outline-none disabled:bg-slate-50"
-            />
+        {/* Logo / Brand */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-sky-100 mb-4">
+            <Fish className="h-7 w-7 text-sky-600" />
           </div>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+            Welcome Back
+          </h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Sign in to your Aqua Delight account
+          </p>
+        </div>
 
-          <div className="relative">
-            <Lock className="absolute left-3 top-3.5 w-4 h-4 text-slate-400" />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              required
-              value={form.password}
-              onChange={handleChange}
-              disabled={isLoading}
-              className="w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-sky-400 outline-none disabled:bg-slate-50"
-            />
-          </div>
+        <Card>
+          <CardContent className="pt-6">
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Error Alert */}
+              <AnimatePresence>
+                {error && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-3"
+                  >
+                    <AlertCircle className="h-4 w-4 text-red-600 mt-0.5 shrink-0" />
+                    <p className="text-sm text-red-700 flex-1">{error}</p>
+                    <button
+                      type="button"
+                      onClick={() => setError("")}
+                      className="text-red-400 hover:text-red-600"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-          <motion.button
-            type="submit"
-            disabled={isLoading}
-            whileTap={{ scale: 0.95 }}
-            whileHover={{ scale: 1.02 }}
-            className="w-full flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 text-white py-3 rounded-xl font-semibold disabled:bg-sky-400 disabled:cursor-not-allowed transition-colors"
-          >
-            {isLoading ? (
-              <>
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Logging in...
-              </>
-            ) : (
-              <>
-                <LogIn className="w-4 h-4" />
-                Login
-              </>
-            )}
-          </motion.button>
-        </form>
+              {/* Email */}
+              <div className="space-y-2">
+                <Label htmlFor="email" className="flex items-center gap-1.5">
+                  <Mail className="h-3.5 w-3.5 text-slate-400" />
+                  Email Address
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  name="email"
+                  placeholder="you@example.com"
+                  required
+                  value={form.email}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                />
+              </div>
 
-        <p className="text-sm text-center text-slate-500 mt-6">
-          Don't have an account?{" "}
-          <Link to="/signup" className="text-sky-600 font-semibold hover:text-sky-700 transition-colors">
-            Create account
-          </Link>
-        </p>
+              {/* Password */}
+              <div className="space-y-2">
+                <Label htmlFor="password" className="flex items-center gap-1.5">
+                  <Lock className="h-3.5 w-3.5 text-slate-400" />
+                  Password
+                </Label>
+                <Input
+                  id="password"
+                  type="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  required
+                  value={form.password}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                />
+              </div>
+
+              {/* Submit */}
+              <Button
+                type="submit"
+                disabled={isLoading}
+                className="w-full h-11 text-sm font-semibold bg-sky-500 hover:bg-sky-600"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Signing in...
+                  </>
+                ) : (
+                  <>
+                    <LogIn className="h-4 w-4" />
+                    Sign In
+                  </>
+                )}
+              </Button>
+            </form>
+
+            <Separator className="my-6" />
+
+            <p className="text-sm text-center text-muted-foreground">
+              Don&apos;t have an account?{" "}
+              <Link
+                to="/signup"
+                className="text-sky-600 font-semibold hover:text-sky-700 transition-colors"
+              >
+                Create account
+              </Link>
+            </p>
+          </CardContent>
+        </Card>
       </motion.div>
     </div>
   );

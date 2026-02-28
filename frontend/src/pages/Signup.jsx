@@ -1,8 +1,27 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { User, Mail, Lock, UserPlus } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  User,
+  Mail,
+  Lock,
+  UserPlus,
+  AlertCircle,
+  X,
+  Loader2,
+  Fish,
+  ShoppingBag,
+  Store,
+} from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 const Signup = () => {
   const [form, setForm] = useState({
@@ -35,137 +54,191 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 relative overflow-hidden">
-
-      {/* <div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, #0ea5e9 1px, transparent 1px)",
-          backgroundSize: "36px 36px",
-        }}
-      /> */}
-
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-sky-50/50 to-slate-50 relative overflow-hidden px-4 py-12">
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white w-full max-w-md rounded-3xl p-10 shadow-xl border border-slate-100"
+        transition={{ duration: 0.4 }}
+        className="w-full max-w-md"
       >
-        <h2 className="text-3xl font-bold text-center mb-2">
-          Create Account
-        </h2>
-        <p className="text-slate-500 text-center mb-8">
-          Join Aqua Delight today
-        </p>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
-              {error}
-            </div>
-          )}
-
-          <div className="relative">
-            <User className="absolute left-3 top-3.5 w-4 h-4 text-slate-400" />
-            <input
-              type="text"
-              name="name"
-              placeholder="Full Name"
-              required
-              value={form.name}
-              onChange={handleChange}
-              disabled={isLoading}
-              className="w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-sky-400 outline-none disabled:bg-slate-50"
-            />
+        {/* Logo / Brand */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-sky-100 mb-4">
+            <Fish className="h-7 w-7 text-sky-600" />
           </div>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+            Create Account
+          </h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Join Aqua Delight and explore fresh seafood
+          </p>
+        </div>
 
-          <div className="relative">
-            <Mail className="absolute left-3 top-3.5 w-4 h-4 text-slate-400" />
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              required
-              value={form.email}
-              onChange={handleChange}
-              disabled={isLoading}
-              className="w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-sky-400 outline-none disabled:bg-slate-50"
-            />
-          </div>
+        <Card>
+          <CardContent className="pt-6">
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Error Alert */}
+              <AnimatePresence>
+                {error && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-3"
+                  >
+                    <AlertCircle className="h-4 w-4 text-red-600 mt-0.5 shrink-0" />
+                    <p className="text-sm text-red-700 flex-1">{error}</p>
+                    <button
+                      type="button"
+                      onClick={() => setError("")}
+                      className="text-red-400 hover:text-red-600"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-          <div className="relative">
-            <Lock className="absolute left-3 top-3.5 w-4 h-4 text-slate-400" />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password (minimum 6 characters)"
-              required
-              value={form.password}
-              onChange={handleChange}
-              disabled={isLoading}
-              className="w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-sky-400 outline-none disabled:bg-slate-50"
-            />
-          </div>
-
-          <div className="space-y-3">
-            <label className="text-sm font-semibold text-slate-700">
-              Account Type
-            </label>
-            <div className="flex gap-4">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="radio"
-                  name="role"
-                  value="buyer"
-                  checked={form.role === "buyer"}
+              {/* Full Name */}
+              <div className="space-y-2">
+                <Label htmlFor="name" className="flex items-center gap-1.5">
+                  <User className="h-3.5 w-3.5 text-slate-400" />
+                  Full Name
+                </Label>
+                <Input
+                  id="name"
+                  type="text"
+                  name="name"
+                  placeholder="John Doe"
+                  required
+                  value={form.name}
                   onChange={handleChange}
                   disabled={isLoading}
-                  className="w-4 h-4 cursor-pointer"
                 />
-                <span className="text-sm text-slate-700">Buyer</span>
-              </label>
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="radio"
-                  name="role"
-                  value="seller"
-                  checked={form.role === "seller"}
+              </div>
+
+              {/* Email */}
+              <div className="space-y-2">
+                <Label htmlFor="email" className="flex items-center gap-1.5">
+                  <Mail className="h-3.5 w-3.5 text-slate-400" />
+                  Email Address
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  name="email"
+                  placeholder="you@example.com"
+                  required
+                  value={form.email}
                   onChange={handleChange}
                   disabled={isLoading}
-                  className="w-4 h-4 cursor-pointer"
                 />
-                <span className="text-sm text-slate-700">Seller</span>
-              </label>
-            </div>
-          </div>
+              </div>
 
-          <motion.button
-            type="submit"
-            disabled={isLoading}
-            whileTap={{ scale: 0.95 }}
-            whileHover={{ scale: 1.02 }}
-            className="w-full flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 text-white py-3 rounded-xl font-semibold disabled:bg-sky-400 disabled:cursor-not-allowed transition-colors"
-          >
-            {isLoading ? (
-              <>
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Creating account...
-              </>
-            ) : (
-              <>
-                <UserPlus className="w-4 h-4" />
-                Create Account
-              </>
-            )}
-          </motion.button>
-        </form>
+              {/* Password */}
+              <div className="space-y-2">
+                <Label htmlFor="password" className="flex items-center gap-1.5">
+                  <Lock className="h-3.5 w-3.5 text-slate-400" />
+                  Password
+                </Label>
+                <Input
+                  id="password"
+                  type="password"
+                  name="password"
+                  placeholder="Minimum 6 characters"
+                  required
+                  value={form.password}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                />
+              </div>
 
-        <p className="text-sm text-center text-slate-500 mt-6">
-          Already have an account?{" "}
-          <Link to="/login" className="text-sky-600 font-semibold hover:text-sky-700 transition-colors">
-            Login
-          </Link>
-        </p>
+              {/* Account Type */}
+              <div className="space-y-3">
+                <Label className="flex items-center gap-1.5">
+                  Account Type
+                </Label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setForm({ ...form, role: "buyer" })}
+                    disabled={isLoading}
+                    className={`flex flex-col items-center gap-2 rounded-xl border-2 p-4 transition-all ${
+                      form.role === "buyer"
+                        ? "border-sky-500 bg-sky-50 text-sky-700"
+                        : "border-slate-200 bg-white text-slate-500 hover:border-slate-300"
+                    } disabled:opacity-50`}
+                  >
+                    <ShoppingBag
+                      className={`h-5 w-5 ${
+                        form.role === "buyer"
+                          ? "text-sky-600"
+                          : "text-slate-400"
+                      }`}
+                    />
+                    <span className="text-sm font-medium">Buyer</span>
+                    <span className="text-xs text-muted-foreground">
+                      Browse & purchase
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setForm({ ...form, role: "seller" })}
+                    disabled={isLoading}
+                    className={`flex flex-col items-center gap-2 rounded-xl border-2 p-4 transition-all ${
+                      form.role === "seller"
+                        ? "border-sky-500 bg-sky-50 text-sky-700"
+                        : "border-slate-200 bg-white text-slate-500 hover:border-slate-300"
+                    } disabled:opacity-50`}
+                  >
+                    <Store
+                      className={`h-5 w-5 ${
+                        form.role === "seller"
+                          ? "text-sky-600"
+                          : "text-slate-400"
+                      }`}
+                    />
+                    <span className="text-sm font-medium">Seller</span>
+                    <span className="text-xs text-muted-foreground">
+                      List & sell products
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Submit */}
+              <Button
+                type="submit"
+                disabled={isLoading}
+                className="w-full h-11 text-sm font-semibold bg-sky-500 hover:bg-sky-600"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Creating account...
+                  </>
+                ) : (
+                  <>
+                    <UserPlus className="h-4 w-4" />
+                    Create Account
+                  </>
+                )}
+              </Button>
+            </form>
+
+            <Separator className="my-6" />
+
+            <p className="text-sm text-center text-muted-foreground">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                className="text-sky-600 font-semibold hover:text-sky-700 transition-colors"
+              >
+                Sign in
+              </Link>
+            </p>
+          </CardContent>
+        </Card>
       </motion.div>
     </div>
   );

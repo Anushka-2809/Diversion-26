@@ -15,8 +15,6 @@ export const addFish = async (req, res) => {
     category,
     price,
     quantity,
-    unit,
-    freshness,
     harvestDate,
     origin,
     recipeVideoUrl,
@@ -50,7 +48,6 @@ export const addFish = async (req, res) => {
       price,
       quantity,
       image,
-      freshness,
     });
     
     const fish = await Fish.create({
@@ -60,8 +57,6 @@ export const addFish = async (req, res) => {
       category,
       price,
       quantity,
-      unit,
-      freshness,
       harvestDate,
       image: image || null, // Ensure null if no image
       origin,
@@ -270,8 +265,6 @@ export const updateFish = async (req, res) => {
       category,
       price,
       quantity,
-      unit,
-      freshness,
       harvestDate,
       origin,
       isAvailable,
@@ -283,8 +276,6 @@ export const updateFish = async (req, res) => {
     fish.category = category || fish.category;
     fish.price = price !== undefined ? price : fish.price;
     fish.quantity = quantity !== undefined ? quantity : fish.quantity;
-    fish.unit = unit || fish.unit;
-    fish.freshness = freshness || fish.freshness;
     fish.harvestDate = harvestDate || fish.harvestDate;
     
     // Handle Cloudinary image upload
