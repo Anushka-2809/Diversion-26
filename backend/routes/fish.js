@@ -68,7 +68,7 @@ router.post(
       .notEmpty()
       .withMessage("Description is required"),
     body("category")
-      .isIn(["Fresh Water", "Salt Water", "Shell Fish", "Other"])
+      .isIn(["Premium Fish", "Premium Shrimp & Prawns", "Premium Crabs", "Exotic &  Luxury Seafood", "Local Fish"])
       .withMessage("Invalid category"),
     body("price")
       .isFloat({ min: 0 })
@@ -95,7 +95,7 @@ router.put(
     body("description").optional().trim().notEmpty(),
     body("category")
       .optional()
-      .isIn(["Fresh Water", "Salt Water", "Shell Fish", "Other"]),
+      .isIn(["Premium Fish", "Premium Shrimp & Prawns", "Premium Crabs", "Exotic &  Luxury Seafood", "Local Fish"]),
     body("price").optional().isFloat({ min: 0 }),
     body("quantity").optional().isInt({ min: 0 }),
     body("harvestDate").optional().isISO8601(),
