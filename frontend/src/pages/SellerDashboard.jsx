@@ -16,6 +16,11 @@ import {
   DollarSign,
   Layers,
   ImageOff,
+  ChevronLeft,
+  ChevronRight,
+  MapPin,
+  Tag,
+  Boxes,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -29,6 +34,12 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
 
 const API_URL = import.meta.env.VITE_API_URL || "https://aqua-delight-backend.vercel.app/api";
 
@@ -41,6 +52,8 @@ const SellerDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const PRODUCTS_PER_PAGE = 3;
 
   useEffect(() => {
     if (!isSeller) {
@@ -91,8 +104,12 @@ const SellerDashboard = () => {
       });
 
       if (response.ok) {
-        setProducts(products.filter((p) => p._id !== productId));
+        const remaining = products.filter((p) => p._id !== productId);
+        setProducts(remaining);
         setShowDeleteConfirm(null);
+        // Adjust page if current page would be empty
+        const maxPage = Math.ceil(remaining.length / PRODUCTS_PER_PAGE) || 1;
+        if (currentPage > maxPage) setCurrentPage(maxPage);
       } else {
         setError("Failed to delete product");
       }
@@ -283,30 +300,55 @@ const SellerDashboard = () => {
                       Distribution across your product types
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    {analytics.productsByCategory.map((cat) => {
-                      const pct = analytics.totalProducts
-                        ? ((cat.count / analytics.totalProducts) * 100).toFixed(0)
-                        : 0;
-                      return (
-                        <div key={cat._id} className="space-y-1.5">
-                          <div className="flex justify-between text-sm">
-                            <span className="font-medium text-slate-700">
-                              {cat._id || "Uncategorized"}
-                            </span>
-                            <span className="text-muted-foreground">
-                              {cat.count} ({pct}%)
-                            </span>
-                          </div>
-                          <div className="h-2 w-full rounded-full bg-slate-100">
-                            <div
-                              className="h-2 rounded-full bg-sky-500 transition-all"
-                              style={{ width: `${pct}%` }}
-                            />
-                          </div>
-                        </div>
-                      );
-                    })}
+                  <CardContent>
+                    {analytics.productsByCategory.length > 0 ? (
+                      <ChartContainer
+                        config={analytics.productsByCategory.reduce((acc, cat, i) => {
+                          const colors = ["#0ea5e9", "#10b981", "#f59e0b", "#8b5cf6", "#ef4444", "#ec4899"];
+                          acc[cat._id || "Uncategorized"] = {
+                            label: cat._id || "Uncategorized",
+                            color: colors[i % colors.length],
+                          };
+                          return acc;
+                        }, {})}
+                        className="h-[250px] w-full"
+                      >
+                        <BarChart
+                          data={analytics.productsByCategory.map((cat) => ({
+                            category: cat._id || "Uncategorized",
+                            count: cat.count,
+                          }))}
+                          margin={{ top: 5, right: 10, left: -10, bottom: 5 }}
+                        >
+                          <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                          <XAxis
+                            dataKey="category"
+                            tickLine={false}
+                            axisLine={false}
+                            tick={{ fontSize: 12 }}
+                          />
+                          <YAxis
+                            allowDecimals={false}
+                            tickLine={false}
+                            axisLine={false}
+                            tick={{ fontSize: 12 }}
+                          />
+                          <ChartTooltip
+                            content={<ChartTooltipContent hideLabel />}
+                          />
+                          <Bar
+                            dataKey="count"
+                            fill="#0ea5e9"
+                            radius={[6, 6, 0, 0]}
+                            name="Products"
+                          />
+                        </BarChart>
+                      </ChartContainer>
+                    ) : (
+                      <p className="text-sm text-muted-foreground text-center py-6">
+                        No category data available
+                      </p>
+                    )}
                   </CardContent>
                 </Card>
 
@@ -406,31 +448,66 @@ const SellerDashboard = () => {
                       Breakdown of products across categories
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-5">
-                    {analytics.productsByCategory.map((cat) => {
-                      const percentage = (
-                        (cat.count / analytics.totalProducts) *
-                        100
-                      ).toFixed(1);
-                      return (
-                        <div key={cat._id} className="space-y-2">
-                          <div className="flex justify-between text-sm">
-                            <span className="font-medium text-slate-700">
-                              {cat._id || "Uncategorized"}
-                            </span>
-                            <span className="text-muted-foreground">
-                              {cat.count} products ({percentage}%)
-                            </span>
-                          </div>
-                          <div className="h-2.5 w-full rounded-full bg-slate-100">
-                            <div
-                              className="h-2.5 rounded-full bg-sky-500 transition-all"
-                              style={{ width: `${percentage}%` }}
-                            />
-                          </div>
-                        </div>
-                      );
-                    })}
+                  <CardContent>
+                    {analytics.productsByCategory.length > 0 ? (
+                      <ChartContainer
+                        config={analytics.productsByCategory.reduce((acc, cat, i) => {
+                          const colors = ["#0ea5e9", "#10b981", "#f59e0b", "#8b5cf6", "#ef4444", "#ec4899"];
+                          acc[cat._id || "Uncategorized"] = {
+                            label: cat._id || "Uncategorized",
+                            color: colors[i % colors.length],
+                          };
+                          return acc;
+                        }, {})}
+                        className="h-[300px] w-full"
+                      >
+                        <BarChart
+                          data={analytics.productsByCategory.map((cat) => ({
+                            category: cat._id || "Uncategorized",
+                            count: cat.count,
+                            percentage: Number(
+                              ((cat.count / analytics.totalProducts) * 100).toFixed(1)
+                            ),
+                          }))}
+                          margin={{ top: 5, right: 10, left: -10, bottom: 5 }}
+                        >
+                          <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                          <XAxis
+                            dataKey="category"
+                            tickLine={false}
+                            axisLine={false}
+                            tick={{ fontSize: 12 }}
+                          />
+                          <YAxis
+                            allowDecimals={false}
+                            tickLine={false}
+                            axisLine={false}
+                            tick={{ fontSize: 12 }}
+                          />
+                          <ChartTooltip
+                            content={
+                              <ChartTooltipContent
+                                formatter={(value, name, item) => (
+                                  <span className="font-medium">
+                                    {value} products ({item.payload.percentage}%)
+                                  </span>
+                                )}
+                              />
+                            }
+                          />
+                          <Bar
+                            dataKey="count"
+                            fill="#0ea5e9"
+                            radius={[6, 6, 0, 0]}
+                            name="Products"
+                          />
+                        </BarChart>
+                      </ChartContainer>
+                    ) : (
+                      <p className="text-sm text-muted-foreground text-center py-6">
+                        No category data available
+                      </p>
+                    )}
                   </CardContent>
                 </Card>
               </>
@@ -455,106 +532,155 @@ const SellerDashboard = () => {
             className="space-y-5"
           >
             {products.length > 0 ? (
-              products.map((product, i) => (
-                <motion.div
-                  key={product._id}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                >
-                  <Card className="overflow-hidden hover:shadow-md transition-shadow">
-                    <CardContent className="p-0">
-                      <div className="flex flex-col md:flex-row">
-                        {/* Image */}
-                        {product.image ? (
-                          <div className="md:w-48 h-44 md:h-auto shrink-0">
-                            <img
-                              src={product.image}
-                              alt={product.name}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                        ) : (
-                          <div className="md:w-48 h-44 md:h-auto shrink-0 bg-slate-100 flex items-center justify-center">
-                            <ImageOff className="h-8 w-8 text-slate-300" />
-                          </div>
-                        )}
-
-                        {/* Content */}
-                        <div className="flex-1 p-5">
-                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
-                            <div>
-                              <h3 className="text-lg font-semibold text-slate-900">
-                                {product.name}
-                              </h3>
-                              <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
-                                {product.description}
-                              </p>
-                            </div>
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {products
+                    .slice(
+                      (currentPage - 1) * PRODUCTS_PER_PAGE,
+                      currentPage * PRODUCTS_PER_PAGE
+                    )
+                    .map((product, i) => (
+                      <motion.div
+                        key={product._id}
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.08 }}
+                      >
+                        <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 group h-full flex flex-col py-2">
+                          {/* Image */}
+                          <div className="relative h-52 overflow-hidden shrink-0 py-2 px-3.5">
+                            {product.image ? (
+                              <img
+                                src={product.image}
+                                alt={product.name}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-slate-100 flex items-center justify-center">
+                                <ImageOff className="h-10 w-10 text-slate-300" />
+                              </div>
+                            )}
                             <Badge
-                              variant="outline"
-                              className="shrink-0 self-start border-sky-200 text-sky-700 bg-sky-50"
+                              className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-sky-700 border-sky-200 shadow-sm"
                             >
                               {product.category}
                             </Badge>
                           </div>
 
-                          <div className="flex flex-wrap gap-2 mb-4">
-                            <Badge className="bg-emerald-50 text-emerald-700 hover:bg-emerald-50 border border-emerald-200">
-                              ₹{product.price}
-                            </Badge>
-                            <Badge className="bg-amber-50 text-amber-700 hover:bg-amber-50 border border-amber-200">
-                              Qty: {product.quantity}
-                            </Badge>
-                            {product.origin && (
-                              <Badge className="bg-violet-50 text-violet-700 hover:bg-violet-50 border border-violet-200">
-                                {product.origin}
-                              </Badge>
-                            )}
-                          </div>
+                          {/* Content */}
+                          <CardContent className="flex-1 flex flex-col p-5">
+                            <h3 className="text-lg font-semibold text-slate-900 mb-1 line-clamp-1">
+                              {product.name}
+                            </h3>
+                            <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
+                              {product.description || "No description provided"}
+                            </p>
 
-                          <Separator className="mb-4" />
+                            {/* Details Grid */}
+                            <div className="grid grid-cols-2 gap-2 mb-4 pl-2">
+                              <div className="flex items-center gap-2 text-sm ">
+                                <span className="font-semibold text-slate-900">₹{product.price}</span>
+                              </div>
+                              <div className="flex items-center gap-2 text-sm">
+                                <span className="text-slate-600">{product.quantity} in stock</span>
+                              </div>
+                              {product.origin && (
+                                <div className="flex items-center gap-2 text-sm col-span-2">
+                                  <MapPin className="h-3.5 w-3.5 text-green-500" />
+                                  <span className="text-slate-600">{product.origin}</span>
+                                </div>
+                              )}
+                            </div>
 
-                          <div className="flex gap-2">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() =>
-                                navigate(`/product/${product._id}`)
-                              }
-                            >
-                              <Eye className="h-4 w-4" />
-                              View
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() =>
-                                navigate(
-                                  `/seller/edit-product/${product._id}`
-                                )
-                              }
-                            >
-                              <Edit2 className="h-4 w-4" />
-                              Edit
-                            </Button>
-                            <Button
-                              variant="destructive"
-                              size="sm"
-                              onClick={() =>
-                                setShowDeleteConfirm(product._id)
-                              }
-                            >
-                              <Trash2 className="h-4 w-4" />
-                              Delete
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))
+                            <Separator className="mb-4" />
+
+                            {/* Actions */}
+                            <div className="flex gap-2 mt-auto">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="flex-1"
+                                onClick={() =>
+                                  navigate(`/product/${product._id}`)
+                                }
+                              >
+                                <Eye className="h-4 w-4" />
+                                View
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="flex-1"
+                                onClick={() =>
+                                  navigate(
+                                    `/seller/edit-product/${product._id}`
+                                  )
+                                }
+                              >
+                                <Edit2 className="h-4 w-4" />
+                                Edit
+                              </Button>
+                              <Button
+                                variant="destructive"
+                                size="sm"
+                                onClick={() =>
+                                  setShowDeleteConfirm(product._id)
+                                }
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </motion.div>
+                    ))}
+                </div>
+
+                {/* Pagination */}
+                {products.length > PRODUCTS_PER_PAGE && (
+                  <div className="flex items-center justify-center gap-2 pt-4">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      disabled={currentPage === 1}
+                      onClick={() => setCurrentPage((p) => p - 1)}
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                      Previous
+                    </Button>
+                    {Array.from(
+                      { length: Math.ceil(products.length / PRODUCTS_PER_PAGE) },
+                      (_, i) => i + 1
+                    ).map((page) => (
+                      <Button
+                        key={page}
+                        variant={page === currentPage ? "default" : "outline"}
+                        size="sm"
+                        className={
+                          page === currentPage
+                            ? "bg-sky-500 hover:bg-sky-600 min-w-[36px]"
+                            : "min-w-[36px]"
+                        }
+                        onClick={() => setCurrentPage(page)}
+                      >
+                        {page}
+                      </Button>
+                    ))}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      disabled={
+                        currentPage ===
+                        Math.ceil(products.length / PRODUCTS_PER_PAGE)
+                      }
+                      onClick={() => setCurrentPage((p) => p + 1)}
+                    >
+                      Next
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </div>
+                )}
+              </>
             ) : (
               <Card>
                 <CardContent className="py-16 text-center">

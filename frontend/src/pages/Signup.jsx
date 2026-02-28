@@ -23,7 +23,6 @@ import { Label } from "@/components/ui/label";
 
 const Signup = () => {
   const [form, setForm] = useState({
-    name: "",
     email: "",
     password: "",
     role: "buyer",
@@ -42,7 +41,7 @@ const Signup = () => {
     setIsLoading(true);
 
     try {
-      await register(form.name, form.email, form.password, form.role);
+      await register("", form.email, form.password, form.role);
       navigate("/");
     } catch (err) {
       setError(err.message || "Registration failed. Please try again.");
@@ -149,27 +148,6 @@ const Signup = () => {
                 </motion.div>
               )}
             </AnimatePresence>
-
-            {/* Full Name */}
-            <div className="space-y-2">
-              <Label htmlFor="name" className="text-[11px] font-bold uppercase tracking-widest text-slate-400">
-                Full Name
-              </Label>
-              <div className="relative">
-                <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <Input
-                  id="name"
-                  type="text"
-                  name="name"
-                  placeholder="John Doe"
-                  required
-                  value={form.name}
-                  onChange={handleChange}
-                  disabled={isLoading}
-                  className="pl-10 h-12 rounded-xl border-slate-200 bg-slate-50 focus:bg-white transition-colors"
-                />
-              </div>
-            </div>
 
             {/* Email */}
             <div className="space-y-2">

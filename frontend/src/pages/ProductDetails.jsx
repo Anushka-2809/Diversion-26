@@ -78,6 +78,8 @@ const ProductDetails = () => {
         }
 
         const productData = data.fish || data;
+        // Normalize _id to id for CartContext compatibility
+        productData.id = productData._id || productData.id;
         setProduct(productData);
         setError("");
 
@@ -94,6 +96,7 @@ const ProductDetails = () => {
               const refreshResponse = await fetch(`${API_URL}/fish/${id}`);
               const refreshData = await refreshResponse.json();
               const refreshedProduct = refreshData.fish || refreshData;
+              refreshedProduct.id = refreshedProduct._id || refreshedProduct.id;
 
               console.log("🔄 Refreshed Product:", refreshedProduct);
               console.log(
@@ -248,24 +251,6 @@ const ProductDetails = () => {
             animate={{ opacity: 1, x: 0 }}
             className="flex flex-col gap-5"
           >
-            {/* Badges */}
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center px-3 py-1 rounded-full bg-sky-50 text-sky-700 text-xs font-semibold border border-sky-200">
-                {product.category}
-              </span>
-              {product.isAvailable !== false && (
-                <span className="inline-flex items-center px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-200">
-                  <Check className="w-3 h-3 mr-1" />
-                  In Stock
-                </span>
-              )}
-              {product.origin && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-semibold border border-purple-200">
-                  <MapPin className="w-3 h-3" />
-                  {product.origin}
-                </span>
-              )}
-            </div>
 
             {/* Title & Rating */}
             <div>
@@ -286,10 +271,9 @@ const ProductDetails = () => {
             <div className="bg-gradient-to-r from-sky-50 via-blue-50 to-indigo-50 rounded-2xl border border-sky-100 p-5">
               <div className="flex items-end justify-between">
                 <div>
-                  <p className="text-xs text-slate-500 uppercase tracking-wider font-medium mb-1">Price</p>
                   <div className="flex items-baseline gap-1">
                     <span className="text-4xl font-extrabold text-sky-600">₹{product.price}</span>
-                    <span className="text-slate-400 text-base font-medium">/kg</span>
+                    <span className=" text-base font-medium">/kg</span>
                   </div>
                 </div>
                 <div className="text-right">
@@ -355,7 +339,7 @@ const ProductDetails = () => {
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-xs text-slate-500 uppercase tracking-wide font-semibold">
-                        🤖 ML Freshness Certificate
+                        ML Freshness Certificate
                       </p>
                       <p className="font-semibold text-slate-900 text-sm mt-0.5">
                         {product.mlAnalysis.analysisDetails?.overallQuality || "Verified Fresh"}
@@ -378,17 +362,16 @@ const ProductDetails = () => {
                     transition={{ delay: 0.1 }}
                     className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 space-y-4"
                   >
-                    <p className="text-xs text-slate-500 uppercase tracking-wide font-semibold">
-                      🤖 AI Freshness Analysis
+                    <p className="text-xs text-slate-500 uppercase tracking-wide font-bold">
+                      AI Freshness Analysis
                     </p>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* Eyes Condition */}
                       {product.mlAnalysis.analysisDetails.eyesCondition && (
                         <div className="flex items-start gap-2.5">
-                          <span className="text-base mt-0.5">👀</span>
                           <div>
-                            <p className="text-xs text-slate-500 font-semibold">Eyes Condition</p>
+                            <p className="text-xs text-slate-500 font-bold">Eyes Condition</p>
                             <p className="text-sm text-slate-700 mt-0.5">
                               {product.mlAnalysis.analysisDetails.eyesCondition}
                             </p>
@@ -399,9 +382,8 @@ const ProductDetails = () => {
                       {/* Smell Indicator */}
                       {product.mlAnalysis.analysisDetails.smellIndicator && (
                         <div className="flex items-start gap-2.5">
-                          <span className="text-base mt-0.5">👃</span>
                           <div>
-                            <p className="text-xs text-slate-500 font-semibold">Smell Indicator</p>
+                            <p className="text-xs text-slate-500 font-bold">Smell Indicator</p>
                             <p className="text-sm text-slate-700 mt-0.5">
                               {product.mlAnalysis.analysisDetails.smellIndicator}
                             </p>
@@ -415,7 +397,7 @@ const ProductDetails = () => {
                       {product.mlAnalysis.analysisDetails.colorScore > 0 && (
                         <div>
                           <div className="flex items-center justify-between mb-1">
-                            <span className="text-xs text-slate-600 flex items-center gap-1.5">🎨 Color Assessment</span>
+                            <span className="text-xs text-slate-800 flex items-center gap-1.5 text-semibold">Color Assessment</span>
                             <span className="text-xs font-bold text-slate-900">{product.mlAnalysis.analysisDetails.colorScore}%</span>
                           </div>
                           <div className="w-full bg-slate-100 rounded-full h-2">
@@ -430,7 +412,7 @@ const ProductDetails = () => {
                       {product.mlAnalysis.analysisDetails.textureScore > 0 && (
                         <div>
                           <div className="flex items-center justify-between mb-1">
-                            <span className="text-xs text-slate-600 flex items-center gap-1.5">✨ Texture & Firmness</span>
+                            <span className="text-xs text-slate-800 flex items-center gap-1.5 text-semibold">Texture & Firmness</span>
                             <span className="text-xs font-bold text-slate-900">{product.mlAnalysis.analysisDetails.textureScore}%</span>
                           </div>
                           <div className="w-full bg-slate-100 rounded-full h-2">
@@ -456,7 +438,7 @@ const ProductDetails = () => {
                         )}
                         {product.mlAnalysis.analysisDetails.recommendations && (
                           <div>
-                            <p className="text-xs text-slate-500 font-semibold mb-1">💡 Storage & Usage</p>
+                            <p className="text-xs text-slate-500 font-bold mb-1">Storage & Usage</p>
                             <p className="text-sm text-slate-600">{product.mlAnalysis.analysisDetails.recommendations}</p>
                           </div>
                         )}
@@ -467,45 +449,6 @@ const ProductDetails = () => {
               </div>
             )}
 
-            {/* Benefits */}
-            <div className="grid grid-cols-2 gap-3">
-              <div className="flex items-center gap-3 bg-white rounded-xl border border-slate-100 shadow-sm p-3">
-                <div className="w-9 h-9 rounded-lg bg-green-50 flex items-center justify-center shrink-0">
-                  <Truck className="w-4 h-4 text-green-600" />
-                </div>
-                <div>
-                  <p className="font-semibold text-slate-900 text-sm">Fast Delivery</p>
-                  <p className="text-slate-500 text-xs">2-3 business days</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 bg-white rounded-xl border border-slate-100 shadow-sm p-3">
-                <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
-                  <Shield className="w-4 h-4 text-blue-600" />
-                </div>
-                <div>
-                  <p className="font-semibold text-slate-900 text-sm">Quality Assured</p>
-                  <p className="text-slate-500 text-xs">100% fresh guarantee</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 bg-white rounded-xl border border-slate-100 shadow-sm p-3">
-                <div className="w-9 h-9 rounded-lg bg-amber-50 flex items-center justify-center shrink-0">
-                  <Leaf className="w-4 h-4 text-amber-600" />
-                </div>
-                <div>
-                  <p className="font-semibold text-slate-900 text-sm">Eco-Friendly</p>
-                  <p className="text-slate-500 text-xs">Sustainable sourcing</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 bg-white rounded-xl border border-slate-100 shadow-sm p-3">
-                <div className="w-9 h-9 rounded-lg bg-purple-50 flex items-center justify-center shrink-0">
-                  <Clock className="w-4 h-4 text-purple-600" />
-                </div>
-                <div>
-                  <p className="font-semibold text-slate-900 text-sm">Fresh Catch</p>
-                  <p className="text-slate-500 text-xs">Recently caught</p>
-                </div>
-              </div>
-            </div>
 
             {/* Quantity Selector + Add to Cart */}
             <div className="flex gap-3 pt-2">
@@ -576,12 +519,6 @@ const ProductDetails = () => {
                 </div>
               </motion.div>
             ) : null}
-
-            {/* Share Button */}
-            <button className="w-full py-2.5 px-4 rounded-xl border border-slate-200 bg-white text-slate-600 font-medium hover:bg-slate-50 transition-all flex items-center justify-center gap-2 text-sm">
-              <Share2 className="w-4 h-4" />
-              Share This Product
-            </button>
           </motion.div>
         </div>
 

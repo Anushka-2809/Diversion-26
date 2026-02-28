@@ -18,6 +18,7 @@ import Signup from "./pages/Signup";
 import ProductListing from "./pages/ProductListing";
 import UserDashboard from "./pages/UserDashboard";
 import SellerDashboard from "./pages/SellerDashboard";
+import EditProduct from "./pages/EditProduct";
 
 const queryClient = new QueryClient();
 
@@ -63,6 +64,14 @@ const App = () => (
                 element={
                   <ProtectedRoute requiredRole="seller">
                     <SellerDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/seller/edit-product/:id"
+                element={
+                  <ProtectedRoute requiredRole="seller">
+                    <EditProduct />
                   </ProtectedRoute>
                 }
               />
