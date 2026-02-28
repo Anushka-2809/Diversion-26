@@ -345,7 +345,7 @@ const ProductDetails = () => {
                         {product.mlAnalysis.analysisDetails?.overallQuality || "Verified Fresh"}
                       </p>
                       {product.mlAnalysis.isCertified && (
-                        <p className="text-xs text-green-700 font-semibold mt-1">✅ Certified Fresh by AI Model</p>
+                        <p className="text-xs text-green-700 font-semibold mt-1"> Certified Fresh by AI Model</p>
                       )}
                     </div>
                     <p className="text-[10px] text-slate-400 shrink-0 self-start">
