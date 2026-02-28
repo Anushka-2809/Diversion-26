@@ -14,6 +14,7 @@ import {
   User,
   Check,
   Loader,
+  Loader2,
   Play,
   ExternalLink,
   AlertCircle,
@@ -24,6 +25,7 @@ import { motion } from "framer-motion";
 import Footer from "@/components/Footer";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
+import { Button } from "@/components/ui/button";
 
 const API_URL = import.meta.env.VITE_API_URL || "https://aqua-delight-backend.vercel.app/api";
 
@@ -145,19 +147,13 @@ const ProductDetails = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid lg:grid-cols-2 gap-12">
-            <div className="h-80 bg-slate-200 rounded-2xl animate-pulse" />
-            <div className="space-y-6">
-              <div className="h-8 bg-slate-200 rounded w-3/4 animate-pulse" />
-              <div className="h-6 bg-slate-200 rounded w-1/2 animate-pulse" />
-              <div className="h-32 bg-slate-200 rounded animate-pulse" />
-              <div className="h-12 bg-slate-200 rounded w-40 animate-pulse" />
-            </div>
-          </div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-sky-50/50 to-slate-50 pt-20">
+        <div className="text-center">
+          <Loader2 className="h-10 w-10 animate-spin text-sky-500 mx-auto" />
+          <p className="mt-4 text-sm text-muted-foreground">
+            Loading product details...
+          </p>
         </div>
-        <Footer />
       </div>
     );
   }
@@ -190,21 +186,19 @@ const ProductDetails = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50">
-      {/* Back Navigation */}
-      <div className="bg-white border-b border-slate-200/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <button
-            onClick={() => navigate("/explore")}
-            className="flex items-center gap-2 text-sky-600 hover:text-sky-700 font-medium transition text-sm"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Products
-          </button>
-        </div>
-      </div>
-
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-8 sm:pt-8 sm:pb-12">
+        {/* Back Button */}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => navigate("/explore")}
+          className="mb-6 gap-2 text-sky-600 border-sky-200 hover:bg-sky-50 hover:text-sky-700"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Products
+        </Button>
+
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
 
           {/* ── LEFT: Product Image ── */}
@@ -605,8 +599,8 @@ const ProductDetails = () => {
 
             {videoLoading && (!product.recipeVideos || product.recipeVideos.length === 0) ? (
               <div className="bg-white rounded-2xl border border-slate-200 shadow-lg p-12 flex flex-col items-center justify-center">
-                <Loader className="w-8 h-8 text-sky-500 animate-spin mb-4" />
-                <p className="text-slate-600 text-center">
+                <Loader2 className="h-10 w-10 animate-spin text-sky-500 mx-auto mb-4" />
+                <p className="text-sm text-muted-foreground text-center">
                   Finding the perfect recipe videos for {product.name}...
                 </p>
                 <p className="text-slate-400 text-sm mt-2">Powered by Google Gemini AI</p>

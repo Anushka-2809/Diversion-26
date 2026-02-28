@@ -17,7 +17,6 @@ import {
 const navLinks = [
   { label: "Home", path: "/" },
   { label: "Explore Fish", path: "/explore" },
-  { label: "Recipes", path: "/recipes" },
   { label: "About", path: "/about" },
   { label: "Contact", path: "/contact" },
 ];
@@ -180,9 +179,9 @@ const Footer = () => {
             </h4>
             <div className="flex flex-col gap-3.5">
               {[
-                { Icon: MapPin, text: "123 Ocean Drive, Miami, FL" },
-                { Icon: Phone, text: "+1 (555) 123-4567" },
-                { Icon: Mail, text: "hello@aquadelight.com" },
+                { Icon: MapPin, text: "IEM Kolkata, Sector 5, 700091" },
+                { Icon: Phone, text: "+91 99999 88888" },
+                { Icon: Mail, text: "aquadelightSupport@gmail.com" },
               ].map(({ Icon, text }) => (
                 <span
                   key={text}

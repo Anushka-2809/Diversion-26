@@ -13,7 +13,7 @@ const contactInfo = [
   {
     icon: MapPin,
     label: "Visit Us",
-    value: "123 Ocean Drive, Miami, FL 33101",
+    value: "IEM Kolkata, Sector 5, 700091",
     sub: "Open to walk-ins Mon–Sat",
     iconBg: "bg-sky-50",
     iconColor: "text-sky-500",
@@ -21,15 +21,15 @@ const contactInfo = [
   {
     icon: Phone,
     label: "Call Us",
-    value: "+1 (555) 123-4567",
-    sub: "Mon–Fri, 9 AM – 6 PM EST",
+    value: "+91 99999 88888",
+    sub: "Mon–Fri, 9 AM – 6 PM IST",
     iconBg: "bg-emerald-50",
     iconColor: "text-emerald-500",
   },
   {
     icon: Mail,
     label: "Email Us",
-    value: "hello@aquadelight.com",
+    value: "aquadelightSupport@gmail.com",
     sub: "We reply within 24 hours",
     iconBg: "bg-violet-50",
     iconColor: "text-violet-500",

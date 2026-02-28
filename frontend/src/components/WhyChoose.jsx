@@ -1,49 +1,66 @@
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import CountUp from "react-countup";
-import { Anchor, ShieldCheck, Truck, HeartPulse } from "lucide-react";
+import { UtensilsCrossed, Brain, Tag, Truck } from "lucide-react";
 
 const features = [
   {
-    icon: Anchor,
-    title: "Fresh Catch",
+    icon: UtensilsCrossed,
+    title: "Recipe Suggestions",
     description:
-      "Sourced daily from trusted fisheries across India and delivered at peak freshness.",
-    iconBg: "bg-sky-50",
-    iconColor: "text-sky-500",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Quality Checked",
-    description:
-      "Every seafood item is inspected and hygienically packed before dispatch.",
+      "Get AI-powered recipe recommendations for every fish you buy. Discover new dishes, cooking techniques, and curated YouTube video tutorials tailored to your catch.",
     iconBg: "bg-emerald-50",
     iconColor: "text-emerald-500",
+    glowColor: "rgba(16,185,129,0.08)",
+    borderHover: "hover:border-emerald-200",
+  },
+  {
+    icon: Brain,
+    title: "ML Freshness Detection",
+    description:
+      "Our machine learning model analyzes fish images to provide a real-time freshness score — checking eyes, texture, color, and more to certify quality before you buy.",
+    iconBg: "bg-sky-50",
+    iconColor: "text-sky-500",
+    glowColor: "rgba(14,165,233,0.08)",
+    borderHover: "hover:border-sky-200",
+  },
+  {
+    icon: Tag,
+    title: "Smart Pricing",
+    description:
+      "Transparent, competitive pricing directly from verified sellers. No middlemen, no hidden fees — just fair prices for premium quality seafood.",
+    iconBg: "bg-violet-50",
+    iconColor: "text-violet-500",
+    glowColor: "rgba(139,92,246,0.08)",
+    borderHover: "hover:border-violet-200",
   },
   {
     icon: Truck,
     title: "Fast Delivery",
     description:
-      "Temperature-controlled delivery that keeps your seafood perfectly fresh.",
-    iconBg: "bg-amber-50",
-    iconColor: "text-amber-500",
-  },
-  {
-    icon: HeartPulse,
-    title: "Healthy Seafood",
-    description:
-      "Rich in protein, omega-3, and essential nutrients for a healthy lifestyle.",
+      "From ocean to doorstep in record time. Our optimized logistics ensure your fresh catch arrives quickly with cold-chain packaging to preserve freshness.",
     iconBg: "bg-rose-50",
     iconColor: "text-rose-500",
+    glowColor: "rgba(244,63,94,0.08)",
+    borderHover: "hover:border-rose-200",
   },
 ];
 
 const stats = [
-  { value: 10, suffix: "+", label: "Years Experience" },
-  { value: 50000, suffix: "+", label: "Happy Customers" },
-  { value: 200, suffix: "+", label: "Fish Varieties" },
+  { value: 2, suffix: "+", label: "Years Experience" },
+  { value: 5000, suffix: "+", label: "Happy Customers" },
+  { value: 30, suffix: "+", label: "Fish Varieties" },
   { value: 4.9, suffix: "★", label: "Average Rating", decimals: 1 },
 ];
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
 
 const WhyChoose = () => {
   return (
@@ -73,34 +90,45 @@ const WhyChoose = () => {
           </h2>
 
           <p className="text-slate-500 max-w-xl mx-auto">
-            Fresh seafood delivered directly from trusted fisheries to your
-            doorstep with unmatched quality.
+            Powered by AI and built for freshness — here's what makes us different.
           </p>
         </motion.div>
 
         {/* features */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-20">
           {features.map((feature, i) => (
             <motion.div
               key={feature.title}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              custom={i}
+              variants={cardVariants}
+              initial="hidden"
+              whileInView="visible"
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              whileHover={{ y: -10 }}
-              className="group bg-white border border-slate-100 rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300"
+              whileHover={{ y: -6, transition: { duration: 0.25 } }}
+              className={`group relative bg-white rounded-2xl border border-slate-100 ${feature.borderHover} shadow-[0_2px_16px_0_rgba(0,0,0,0.05)] hover:shadow-[0_16px_48px_0_rgba(0,0,0,0.09)] transition-all duration-300 p-7 flex flex-col overflow-hidden`}
             >
+              {/* glow on hover */}
               <div
-                className={`w-14 h-14 rounded-xl ${feature.iconBg} flex items-center justify-center mb-6 group-hover:scale-110 transition`}
+                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                style={{
+                  background: `radial-gradient(ellipse at top left, ${feature.glowColor}, transparent 70%)`,
+                }}
+              />
+
+              <div
+                className={`w-12 h-12 rounded-2xl ${feature.iconBg} flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-110 relative z-10`}
               >
-                <feature.icon className={`w-6 h-6 ${feature.iconColor}`} />
+                <feature.icon className={`w-5 h-5 ${feature.iconColor}`} />
               </div>
 
-              <h3 className="font-semibold text-lg text-slate-800 mb-2">
+              <h3
+                className="text-sm font-bold text-slate-800 mb-2 group-hover:text-sky-600 transition-colors duration-200 relative z-10"
+                style={{ fontFamily: "'Sora', 'Nunito', sans-serif" }}
+              >
                 {feature.title}
               </h3>
 
-              <p className="text-sm text-slate-500 leading-relaxed">
+              <p className="text-sm text-slate-500 leading-relaxed font-light relative z-10">
                 {feature.description}
               </p>
             </motion.div>

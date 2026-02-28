@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { User, Mail, Phone, MapPin, Edit2, Save, X } from "lucide-react";
+import { User, Mail, Phone, MapPin, Edit2, Save, X, Loader2 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -313,7 +313,7 @@ const UserDashboard = () => {
                     >
                       {loading ? (
                         <>
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                          <Loader2 className="w-4 h-4 animate-spin" />
                           Saving...
                         </>
                       ) : (

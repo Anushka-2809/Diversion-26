@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, ShoppingCart, Flame, Check, Star } from "lucide-react";
+import { ArrowRight, ShoppingCart, Flame, Check, Star, Loader2 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useState, useEffect } from "react";
 
@@ -155,20 +155,13 @@ const FeaturedFish = () => {
 
         {/* Loading state */}
         {loading ? (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {[...Array(4)].map((_, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-2xl border border-slate-100 shadow-[0_2px_16px_0_rgba(0,0,0,0.05)] h-80 animate-pulse"
-              >
-                <div className="h-44 bg-slate-200" />
-                <div className="p-5 space-y-3">
-                  <div className="h-4 bg-slate-200 rounded w-3/4" />
-                  <div className="h-3 bg-slate-100 rounded w-1/2" />
-                  <div className="h-10 bg-slate-100 rounded" />
-                </div>
-              </div>
-            ))}
+          <div className="flex items-center justify-center py-32">
+            <div className="text-center">
+              <Loader2 className="h-10 w-10 animate-spin text-sky-500 mx-auto" />
+              <p className="mt-4 text-sm text-muted-foreground">
+                Loading featured fish...
+              </p>
+            </div>
           </div>
         ) : fish.length > 0 ? (
           <>

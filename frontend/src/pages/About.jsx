@@ -10,10 +10,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const stats = [
-  { value: "10+", label: "Years of Experience" },
-  { value: "200+", label: "Fish Varieties" },
-  { value: "50K+", label: "Happy Customers" },
-  { value: "4.9★", label: "Average Rating" },
+  { value: "30+", label: "Fish Varieties" },
+  { value: "500+", label: "Happy Customers" },
+  { value: "4.8★", label: "Average Rating" },
+  { value: "2", label: "Team Members" },
 ];
 
 const values = [
@@ -113,7 +113,7 @@ const About = () => {
                 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.22 }}
                 className="text-slate-500 text-lg leading-relaxed font-light mb-8 max-w-md"
               >
-                Founded in 2014 by a lifelong fisherman and a Michelin-starred chef, AquaDelight was born from a simple belief: everyone deserves access to truly fresh, responsibly sourced seafood.
+                AquaDelight started as a hackathon idea born at Diversion 2026 — built from scratch by our small but passionate team. We're new to the seafood business, but we believe technology can revolutionize how people buy fresh fish. From AI-powered recipes to ML freshness detection, we're reimagining the entire experience.
               </motion.p>
 
               <motion.div
@@ -246,52 +246,85 @@ const About = () => {
         </div>
       </section>
 
-      {/* ── AWARDS STRIP ── */}
-      <section className="py-14 bg-slate-50 border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
-            className="flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
-                <Award className="w-5 h-5 text-amber-500" />
-              </div>
-              <div>
-                <p className="text-sm font-bold text-slate-800" style={{ fontFamily: "'Sora', 'Nunito', sans-serif" }}>
-                  Best Seafood Delivery 2024
-                </p>
-                <p className="text-xs text-slate-400">Food & Beverage Excellence Awards</p>
-              </div>
-            </div>
-            <div className="hidden sm:block w-px h-10 bg-slate-200" />
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
-                <Leaf className="w-5 h-5 text-emerald-500" />
-              </div>
-              <div>
-                <p className="text-sm font-bold text-slate-800" style={{ fontFamily: "'Sora', 'Nunito', sans-serif" }}>
-                  Certified Sustainable Fishery
-                </p>
-                <p className="text-xs text-slate-400">Marine Stewardship Council</p>
-              </div>
-            </div>
-            <div className="hidden sm:block w-px h-10 bg-slate-200" />
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-sky-50 flex items-center justify-center">
-                <Star className="w-5 h-5 text-sky-500 fill-sky-500" />
-              </div>
-              <div>
-                <p className="text-sm font-bold text-slate-800" style={{ fontFamily: "'Sora', 'Nunito', sans-serif" }}>
-                  Top Rated Seafood Brand
-                </p>
-                <p className="text-xs text-slate-400">Trustpilot · 2,400+ reviews</p>
-              </div>
-            </div>
+      {/* ── RECOGNITION ── */}
+      <section className="py-24 bg-slate-50 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.025]"
+          style={{ backgroundImage: "radial-gradient(circle, #0ea5e9 1px, transparent 1px)", backgroundSize: "36px 36px" }} />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55 }} className="text-center mb-14">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-5 border"
+              style={{ background: "rgba(14,165,233,0.07)", borderColor: "rgba(14,165,233,0.2)", color: "#0284c7", fontFamily: "'Sora', 'Nunito', sans-serif" }}>
+              <Award className="w-3.5 h-3.5" />
+              Recognition
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight mb-4"
+              style={{ fontFamily: "'Sora', 'Nunito', sans-serif" }}>
+              Our{" "}
+              <span className="relative inline-block text-sky-500">
+                Achievements
+                <span className="absolute -bottom-1 left-0 w-full h-[3px] rounded-full bg-sky-400" />
+              </span>
+            </h2>
+            <p className="text-slate-500 max-w-md mx-auto leading-relaxed font-light">
+              Milestones and recognition that fuel our journey forward.
+            </p>
+          </motion.div>
+
+          <div className="grid sm:grid-cols-3 gap-5 mb-10">
+            {[
+              {
+                icon: Award,
+                title: "Diversion 2026 Hackathon Project",
+                subtitle: "Built & presented at IEM Kolkata",
+                iconBg: "bg-amber-50",
+                iconColor: "text-amber-500",
+                glowColor: "rgba(245,158,11,0.08)",
+                borderHover: "hover:border-amber-200",
+              },
+              {
+                icon: ShieldCheck,
+                title: "Quality-First Platform",
+                subtitle: "ML-powered freshness verification",
+                iconBg: "bg-emerald-50",
+                iconColor: "text-emerald-500",
+                glowColor: "rgba(16,185,129,0.08)",
+                borderHover: "hover:border-emerald-200",
+              },
+              {
+                icon: Star,
+                title: "Community Trusted",
+                subtitle: "Growing user base with 4.8★ rating",
+                iconBg: "bg-sky-50",
+                iconColor: "text-sky-500",
+                glowColor: "rgba(14,165,233,0.08)",
+                borderHover: "hover:border-sky-200",
+              },
+            ].map((item, i) => (
+              <motion.div key={item.title} custom={i} variants={cardVariants} initial="hidden" whileInView="visible"
+                viewport={{ once: true }} whileHover={{ y: -6, transition: { duration: 0.25 } }}
+                className={`group relative bg-white rounded-2xl border border-slate-100 ${item.borderHover} shadow-[0_2px_16px_0_rgba(0,0,0,0.05)] hover:shadow-[0_16px_48px_0_rgba(0,0,0,0.09)] transition-all duration-300 p-7 flex flex-col items-center text-center overflow-hidden`}>
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                  style={{ background: `radial-gradient(ellipse at top left, ${item.glowColor}, transparent 70%)` }} />
+                <div className={`w-12 h-12 rounded-2xl ${item.iconBg} flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-110 relative z-10`}>
+                  <item.icon className={`w-5 h-5 ${item.iconColor}`} />
+                </div>
+                <h3 className="text-sm font-bold text-slate-800 mb-2 group-hover:text-sky-600 transition-colors duration-200 relative z-10"
+                  style={{ fontFamily: "'Sora', 'Nunito', sans-serif" }}>
+                  {item.title}
+                </h3>
+                <p className="text-sm text-slate-500 leading-relaxed font-light relative z-10">{item.subtitle}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="text-center">
             <Link to="/explore"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-sky-500 hover:bg-sky-600 transition-all duration-300 shadow-[0_2px_12px_0_rgba(14,165,233,0.3)] hover:shadow-[0_4px_20px_0_rgba(14,165,233,0.45)] hover:-translate-y-0.5 whitespace-nowrap group flex-shrink-0">
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-sky-500 hover:bg-sky-600 transition-all duration-300 shadow-[0_2px_12px_0_rgba(14,165,233,0.3)] hover:shadow-[0_4px_20px_0_rgba(14,165,233,0.45)] hover:-translate-y-0.5 whitespace-nowrap group">
               Shop Now
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
-          </motion.div>
+          </div>
         </div>
       </section>
 

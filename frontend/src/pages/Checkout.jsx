@@ -11,6 +11,7 @@ import {
   Clock,
   Check,
   AlertCircle,
+  Loader2,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
@@ -556,7 +557,12 @@ const Checkout = () => {
                       disabled={loading}
                       className="flex-1 py-3 px-4 rounded-xl bg-sky-500 hover:bg-sky-600 disabled:bg-slate-400 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
                     >
-                      {loading ? "Processing..." : "Complete Payment"}
+                      {loading ? (
+                        <span className="flex items-center justify-center gap-2">
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Processing...
+                        </span>
+                      ) : "Complete Payment"}
                     </button>
                   </div>
                 </motion.div>

@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Search,
   X,
   Star,
   ShoppingCart,
@@ -11,6 +10,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Check,
+  Loader2,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -27,10 +27,18 @@ const cardVariants = {
   }),
 };
 
+const CATEGORIES = [
+  "All",
+  "Premium Fish",
+  "Premium Shrimp & Prawns",
+  "Premium Crabs",
+  "Exotic & Luxury Seafood",
+  "Local Fish",
+];
+
 const Explore = () => {
   const { addToCart } = useCart();
-  const [search, setSearch] = useState("");
-  const [waterTypeFilter, setWaterTypeFilter] = useState("All");
+  const [categoryFilter, setCategoryFilter] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
   const [fishData, setFishData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -91,12 +99,11 @@ const Explore = () => {
 
   const filteredFish = useMemo(() => {
     return fishData.filter((f) => {
-      const matchesSearch = f.name.toLowerCase().includes(search.toLowerCase());
-      const matchesWater =
-        waterTypeFilter === "All" || f.waterType === waterTypeFilter;
-      return matchesSearch && matchesWater;
+      const matchesCategory =
+        categoryFilter === "All" || f.category === categoryFilter;
+      return matchesCategory;
     });
-  }, [search, waterTypeFilter, fishData]);
+  }, [categoryFilter, fishData]);
 
   const totalPages = Math.ceil(filteredFish.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -142,21 +149,29 @@ return (
             transition={{ duration: 0.6 }}
             className="text-4xl font-bold text-slate-900 tracking-tight mb-8"
           >
-            Explore Our <span className="text-sky-500">Fish</span>
+            Explore Our <span className="text-sky-500">Products</span>
           </motion.h1>
 
-          {/* Search and Filter Row */}
-          <div className="flex gap-3 mb-6 flex-col sm:flex-row relative z-50">
-            <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search fish by name..."
-                className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white border border-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-300/50 focus:border-sky-300 text-slate-800 placeholder:text-slate-400 transition-all shadow-sm text-sm"
-              />
-            </div>
+          {/* Category Filter Buttons */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            {CATEGORIES.map((cat) => (
+              <motion.button
+                key={cat}
+                onClick={() => {
+                  setCategoryFilter(cat);
+                  setCurrentPage(1);
+                }}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className={`px-4 py-2 rounded-xl text-sm font-semibold border transition-all duration-200 ${
+                  categoryFilter === cat
+                    ? "bg-sky-500 text-white border-sky-500 shadow-[0_2px_12px_0_rgba(14,165,233,0.35)]"
+                    : "bg-white text-slate-600 border-slate-200 hover:border-sky-300 hover:text-sky-600"
+                }`}
+              >
+                {cat}
+              </motion.button>
+            ))}
           </div>
 
           {/* Error message */}
@@ -172,20 +187,13 @@ return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Loading state */}
         {loading ? (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[...Array(8)].map((_, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-2xl border border-slate-100 shadow-sm h-80 animate-pulse"
-              >
-                <div className="h-44 bg-slate-200" />
-                <div className="p-5 space-y-3">
-                  <div className="h-4 bg-slate-200 rounded w-3/4" />
-                  <div className="h-3 bg-slate-100 rounded w-1/2" />
-                  <div className="h-10 bg-slate-100 rounded" />
-                </div>
-              </div>
-            ))}
+          <div className="flex items-center justify-center py-32">
+            <div className="text-center">
+              <Loader2 className="h-10 w-10 animate-spin text-sky-500 mx-auto" />
+              <p className="mt-4 text-sm text-muted-foreground">
+                Loading fresh catches...
+              </p>
+            </div>
           </div>
         ) : (
           <>

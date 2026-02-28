@@ -60,11 +60,11 @@ const ProductListing = () => {
   const [success, setSuccess] = useState("");
 
   const categories = [
-    { value: "Premium Fish", icon: "🐟" },
-    { value: "Premium Shrimp & Prawns", icon: "🦐" },
-    { value: "Premium Crabs", icon: "🦀" },
-    { value: "Exotic &  Luxury Seafood", icon: "🦞" },
-    { value: "Local Fish", icon: "🐠" },
+    { value: "Premium Fish" },
+    { value: "Premium Shrimp & Prawns" },
+    { value: "Premium Crabs" },
+    { value: "Exotic &  Luxury Seafood" },
+    { value: "Local Fish" },
   ];
 
   const handleChange = (e) => {
@@ -286,10 +286,7 @@ const ProductListing = () => {
                       <SelectContent>
                         {categories.map((cat) => (
                           <SelectItem key={cat.value} value={cat.value}>
-                            <span className="flex items-center gap-2">
-                              <span>{cat.icon}</span>
-                              <span>{cat.value}</span>
-                            </span>
+                            {cat.value}
                           </SelectItem>
                         ))}
                       </SelectContent>

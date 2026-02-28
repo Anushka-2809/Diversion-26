@@ -143,7 +143,7 @@ const Hero = () => {
               </Link>
 
               <Link
-                to="/how-it-works"
+                to="/about"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold
                 text-slate-700 border border-slate-200
                 hover:bg-sky-50 hover:border-sky-300 transition"
